@@ -15,12 +15,24 @@
 			$.PAYLOAD = new Object();
 
 			$(document).ready(function(){
-			    $("#file").change(handleFileSelect);	
+		    $("#file").change(handleFileSelect);	
 
-			    var dropzone = document.getElementById("dz");
-					dropzone.addEventListener('dragover', handleDragOver, false);
-					dropzone.addEventListener('drop', handleFileDrop, false);
-					dropzone.addEventListener('dragleave', handleDragLeave, false);
+		    var dropzone = document.getElementById("dz");
+				dropzone.addEventListener('dragover', handleDragOver, false);
+				dropzone.addEventListener('drop', handleFileDrop, false);
+				dropzone.addEventListener('dragleave', handleDragLeave, false);
+
+
+		  	/*  Range Input Slider */
+				var slider = document.getElementById("inputPassingScore");
+				var output = document.getElementById("rangeVal");
+				output.innerHTML = slider.value;
+
+				slider.oninput = function() {
+				  output.innerHTML = this.value;
+				}
+
+
 			 });
 
 		</script>
@@ -33,30 +45,69 @@
 	</head>
 
 	<body>
-		
-			
-
-			<div class="container">
+					
+			<div id="uploadArea" class="container">
 				<div class=col-lg-12>
 			    <div id="dz" onclick="dropzoneClick()" accept=".csv" class="card card-body bg-light">
-			    	<center>
-			    		<h1>
+			    	
+			    		<h1 class="text-center font-weight-bold">
 			    			<i class="fas fa-cloud-upload-alt"></i>
 			    			<span id="dzText">Drop your file here (or click)</span>
 			    		</h1>
-			    	</center>
+			    	
 			    </div>
 			    <input type="file" name="file" id="file" class="d-none"/>
+				</div> <!-- end dzCol -->
+
+			</div> <!-- end uploadArea -->
+
+			<div id="optArea" class="container d-none">
+				<div class="card">
+					<h1 class="card-header">Select Options</h1>
+					<form class="card-body">
+						<div class="form-group row justify-content-center">
+							<label for="inputQuestions" class="col-sm-4 col-form-label"># of Questions</label>
+							<div class="col-sm-2">
+								<select id="inputQuestions" class="form-control">
+									<option selected>Choose...</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row justify-content-center">
+							<label for="inputPassingScore" class="col-sm-4 col-form-label">Min Passing Score</label>
+							<input type="range" min="50" max="100" value="75" class="form-control-range col-sm-2" id="inputPassingScore">
+							<span id="rangeVal">75</span>
+						</div>
+						<div class="form-group row justify-content-center">
+							<div class="col-sm-12 text-center">
+								<button type="submit" id="btnSubmitOpts" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
+					</form>
 				</div>
-			</div>
+			</div> <!--end optArea -->
 
-
-
-		
+			<div id="testArea" class="container d-none">
+				<div class="card">
+					<h1 class="card-header text-center">						
+						Please answer the following questions
+					</h1>					
+				</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-lg-4">
+								<p>questions here</p>
+							</div>
+						</div>
+					</div>
+				</div> <!-- end card -->
+			</div> <!-- end testArea -->
 
 	</body>
 
 	<script>
+
+		/* most of the following functions courtesy of a CodePen project I found */
 
 		function handleFileDrop(evt) {
 		  evt.stopPropagation();
@@ -87,23 +138,22 @@
 
 		}
 
-
-
 		function doUpload(e) { 
 		  console.log('attempt');
 		  Papa.parse(e, {
-		    header:true,
+		    header: true,
+		    skipEmptyLines: 'greedy',
 		    before: function(file, inputElem){ console.log('Attempting to Parse...')},
 		    error: function(err, file, inputElem, reason){ console.log(err); },
-		    complete: function(results, file){ $.PAYLOAD = results; }
+		    complete: function(results, file){
+		    	getTestOpts(results);
+		    }
 		  });
 		}
 
 		function dropzoneClick(evt){
 		  $('#file').click();
-		}
-
-		 
+		}		 
 		 
 		function handleFileSelect(evt) {
 		  var file = evt.target.files[0];
@@ -113,11 +163,30 @@
 		    dynamicTyping: true,
 		    complete: function(results) {
 		      console.log(results);
+		    },
+		    error: function(err) {
+		    	console.log(err);
 		    }
 		  });
-		}
+
+		} // end dropzoneClick()
  
-  
+	  function getTestOpts(results){
+			// hide uploadArea & show optionArea
+			$("#uploadArea").addClass("d-none");
+			$("#optArea").removeClass("d-none");
+	  }
+
+	  function generateTest(results) {
+	  	//console.log(results);
+
+	  	// hide optionArea and show test area
+	  	$("#optionArea").addClass("d-none");
+	  	$("#testArea").removeClass("d-none");
+
+	  } // end generateTest()
+
+
 
 	</script>
 
