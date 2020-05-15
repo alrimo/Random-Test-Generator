@@ -17,10 +17,11 @@
 			$(document).ready(function(){
 		    $("#file").change(handleFileSelect);	
 
-		    var dropzone = document.getElementById("dz");
-				dropzone.addEventListener('dragover', handleDragOver, false);
-				dropzone.addEventListener('drop', handleFileDrop, false);
-				dropzone.addEventListener('dragleave', handleDragLeave, false);
+		    // event handlers (drag and drop)
+				var dropzone = $("#dz");
+				dropzone.on("dragover", handleDragOver);
+				dropzone.on("drop", handleFileDrop);
+				dropzone.on("dragleave", handleDragLeave);
 
 
 		  	/*  Range Input Slider */
@@ -113,7 +114,7 @@
 		  evt.stopPropagation();
 		  evt.preventDefault();
 
-		  var files = evt.dataTransfer.files; 
+		  var files = evt.originalEvent.dataTransfer.files; 
 		  console.log('Caught a File!');
 		  doUpload(files[0]);
 		  console.log($.PAYLOAD);
@@ -122,8 +123,8 @@
 		function handleDragOver(evt) {
 		  evt.stopPropagation();
 		  evt.preventDefault();
-		  evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-	 
+	 		evt.originalEvent.dataTransfer.dropEffect = "copy";
+
 		  $("#dz").addClass("bg-dark text-white");
 		  $("#dzText").text("Release to upload");
 
