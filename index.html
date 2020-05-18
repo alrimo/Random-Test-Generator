@@ -12,14 +12,15 @@
 
 
 		<script id="test-template" type="text/x-handlebars-template">
+			{{!-- if-statement keeps empty options from rendering --}}
 			<div class="row">
-				<div class="col-lg-12">
-					<h1>{{question}}</h1>
-				</div>
-				{{#each option}}
-					//TODO: finish looping through test options
-
-				{{/each}}
+				<div class="col-lg-12">{{question}}</div>
+				{{#if opt1}}<div class="col-lg-12">{{opt1}}</div>{{/if}}
+				{{#if opt2}}<div class="col-lg-12">{{opt2}}</div>{{/if}}
+				{{#if opt3}}<div class="col-lg-12">{{opt3}}</div>{{/if}}
+				{{#if opt4}}<div class="col-lg-12">{{opt4}}</div>{{/if}}
+				{{#if opt5}}<div class="col-lg-12">{{opt5}}</div>{{/if}}
+				{{#if opt6}}<div class="col-lg-12">{{opt6}}</div>{{/if}}				
 			</div>
 		</script>
 
@@ -27,6 +28,11 @@
 		<script>
 			$.PAYLOAD = new Object();
 			var dataTracker = new Object();
+			var questionList = [];
+			var currentQ = -1;	// idx of current, prev, next, last questions
+			var nextQ = -1;
+			var prevQ = -1;
+			var lastQ = -1;
 
 			$(document).ready(function(){
 		    $("#file").change(handleFileSelect);	
@@ -37,6 +43,7 @@
 				dropzone.on("drop", handleFileDrop);
 				dropzone.on("dragleave", handleDragLeave);
 				$("#formOptions").on("submit", handleOptionsSubmit);
+				$("#nextPage > a").on("click", paginateNext);
 
 		  	/*  Range Input Slider */
 				var slider = document.getElementById("inputPassingScore");
@@ -46,6 +53,7 @@
 				slider.oninput = function() {
 				  output.innerHTML = this.value;
 				}
+
 
 
 			 });
@@ -110,7 +118,21 @@
 			
 					<div id="testContent" class="card-body">
 
-						<!-- Template fills here -->
+						<div id="testContentQuestion">
+							<!-- Template fills here -->
+						</div>
+
+						<nav>
+							<ul class="pagination">
+								<li id="prevPage" class="page-item disabled">
+									<a class="page-link" href="#" tabindex="-1">Previous</a>
+								</li>
+								<li id="currPage" class="page-item"><span class="page-link">1</span></li>
+						    <li id="nextPage" class="page-item">
+						      <a class="page-link" href="#">Next</a>
+						    </li>
+							</ul>
+						</nav>
 
 					</div>
 
@@ -203,6 +225,16 @@
 	  }
 
 
+		function shuffleArray(array) {
+	    /* Durstenfeld shuffle algorithm */
+	    for (var i = array.length - 1; i > 0; i--) {
+	        var j = Math.floor(Math.random() * (i + 1));
+	        var temp = array[i];
+	        array[i] = array[j];
+	        array[j] = temp;
+	    }
+		}
+
 	  function handleOptionsSubmit(evt){
 	  	/* Desc: User has selected options, now generate test */
 	  	
@@ -214,22 +246,104 @@
 			var minPassing = $("#inputPassingScore").val();
 			var numQuestions = $.PAYLOAD.data.length;
 
-			// format of dataTracker obj: {idxOfQuestion: userSelection}
-			for (var i=0; i < numQuestions; i++){
-				//TODO: init dataTracker obj with randomized selection of question indices
+			/* Generate randomized test number array
+				Approach: (1) Create a simple array numbered 1 to total # of questions in CSV
+									(2) Shuffle that array
+									(3) Truncate array to # of question user selected
+				End State: 	randomized indices of user-specified length.  
+										In other words: x random questions selected from y total questions  
+			*/
+			
+			for(let i = 0; i < numQuestions; i++){				
+				questionList.push(i);
 			}
+			shuffleArray(questionList);							
+			questionList.length = randQuestions;		// truncate array to user-specified number of questions 
 
-	  	// TODO: run template
+			// init pagination
+			paginateInit();
 
+			// render first question
+			displayQuestion(0);
 
 	  	// hide optionArea and show test area
 	  	$("#optArea").addClass("d-none");
 	  	$("#testArea").removeClass("d-none");
 
+	  }
+
+	  function displayQuestion(questionIdx){
+	  	/* Desc: render specified question into template area */
+
+	  	// Get question from question bank (i.e., $.PAYLOAD)
+	  	var randQ = questionList[questionIdx]
+	  	var context = $.PAYLOAD.data[randQ];
+
+	  	// Render template
+	  	var source = document.getElementById("test-template").innerHTML;
+	  	var template = Handlebars.compile(source);
+	  	var html = template(context);
+	  	$("#testContentQuestion").html(html);
 
 
 	  }
 
+
+
+	  /****** Pagination *******/
+
+	  function paginateInit(){
+			currentQ = 0;
+			nextQ = 1;
+			prevQ = -1;
+			lastQ = questionList.length;
+			updatePaginate();
+
+			//TODO: 
+
+	  }
+
+	  function updatePaginate() {
+	  	/* Desc: update pagination buttons on page */
+	  	
+	  	$("#currPage > span").text(currentQ + 1);
+
+
+	  }
+
+	  function paginateNext(){
+	  	// update to next only if one exists
+	  	if( currentQ + 1 <= (questionList.length - 1) ){
+	  		/* update trackers: 
+	  					'previous' quesion is current
+	  					'current' is next
+	  					'next' is next-next (+2 from current, if exists)
+				*/
+	  		prevQ = currentQ;
+	  		nextQ = (currentQ + 2 <= (questionList.length -1)) ? nextQ + 2 : -1; 
+	  		currentQ = currentQ + 1;
+
+	  		//update pagination
+	  		updatePaginate();
+
+	  		// render new question
+	  		displayQuestion(currentQ);
+
+	  	} else {
+	  		console.log("Unable to go to next question: at end of list");
+	  		console.log("currentQ: ", currentQ);
+	  		console.log("questionList.length: ", questionList.length);
+	  	}
+	  }
+
+	  function paginatePrev(){
+
+
+	  }
+
+	  function paginateJumpto(){
+
+	  }
 
 
 	</script>
