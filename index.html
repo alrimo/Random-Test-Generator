@@ -8,21 +8,35 @@
 		<script src="js/jquery-3.5.1.min.js"></script>
 		<script src="js/bootstrap.js"></script>
 		<script src="js/papaparse.min.js"></script>
+		<script src="js/handlebars.js"></script>
+
+
+		<script id="test-template" type="text/x-handlebars-template">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1>{{question}}</h1>
+				</div>
+				{{#each option}}
+					//TODO: finish looping through test options
+
+				{{/each}}
+			</div>
+		</script>
+
 
 		<script>
-
-
 			$.PAYLOAD = new Object();
+			var dataTracker = new Object();
 
 			$(document).ready(function(){
 		    $("#file").change(handleFileSelect);	
 
-		    // event handlers (drag and drop)
+		    // event handlers
 				var dropzone = $("#dz");
 				dropzone.on("dragover", handleDragOver);
 				dropzone.on("drop", handleFileDrop);
 				dropzone.on("dragleave", handleDragLeave);
-
+				$("#formOptions").on("submit", handleOptionsSubmit);
 
 		  	/*  Range Input Slider */
 				var slider = document.getElementById("inputPassingScore");
@@ -65,7 +79,7 @@
 			<div id="optArea" class="container d-none">
 				<div class="card">
 					<h1 class="card-header">Select Options</h1>
-					<form class="card-body">
+					<form id="formOptions" class="card-body">
 						<div class="form-group row justify-content-center">
 							<label for="inputQuestions" class="col-sm-4 col-form-label"># of Questions</label>
 							<div class="col-sm-2">
@@ -93,14 +107,13 @@
 					<h1 class="card-header text-center">						
 						Please answer the following questions
 					</h1>					
-				</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="col-lg-4">
-								<p>questions here</p>
-							</div>
-						</div>
+			
+					<div id="testContent" class="card-body">
+
+						<!-- Template fills here -->
+
 					</div>
+
 				</div> <!-- end card -->
 			</div> <!-- end testArea -->
 
@@ -131,9 +144,9 @@
 		}
 
 		function handleDragLeave(evt) {
+			// User exits hover event, return to original state
 			evt.stopPropagation();
 			evt.preventDefault();
-
 			$("#dz").removeClass("bg-dark text-white");
 			$("#dzText").text("Drop your file here (or click)");
 
@@ -147,18 +160,19 @@
 		    before: function(file, inputElem){ console.log('Attempting to Parse...')},
 		    error: function(err, file, inputElem, reason){ console.log(err); },
 		    complete: function(results, file){
-		    	getTestOpts(results);
+		    	$.PAYLOAD = results;	// put results into global var
+		    	dispTestOpts();				// call next step (display the test options)
 		    }
 		  });
 		}
 
 		function dropzoneClick(evt){
+			// relay click event to hidden file upload input
 		  $('#file').click();
 		}		 
 		 
 		function handleFileSelect(evt) {
 		  var file = evt.target.files[0];
-
 		  Papa.parse(file, {
 		    header: true,
 		    dynamicTyping: true,
@@ -172,20 +186,49 @@
 
 		} // end dropzoneClick()
  
-	  function getTestOpts(results){
+	  function dispTestOpts(){
+	  	/* Desc: Display test options area */ 
+			
 			// hide uploadArea & show optionArea
 			$("#uploadArea").addClass("d-none");
 			$("#optArea").removeClass("d-none");
+
+			// Populate "# of questions" drop-down
+			var numQuestions = $.PAYLOAD.data.length;
+			var optsToAppend = "";
+			for (i=1; i < numQuestions + 1; i++){
+				optsToAppend += '<option value="' + i + '">' + String(i) + '</option>';
+			}
+			$("#inputQuestions").append(optsToAppend);
 	  }
 
-	  function generateTest(results) {
-	  	//console.log(results);
+
+	  function handleOptionsSubmit(evt){
+	  	/* Desc: User has selected options, now generate test */
+	  	
+	  	//evt.originalEvent.stopPropagation();
+	  	evt.originalEvent.preventDefault();
+
+	  	// Randomize test
+			var randQuestions = $("#inputQuestions option:selected").val();
+			var minPassing = $("#inputPassingScore").val();
+			var numQuestions = $.PAYLOAD.data.length;
+
+			// format of dataTracker obj: {idxOfQuestion: userSelection}
+			for (var i=0; i < numQuestions; i++){
+				//TODO: init dataTracker obj with randomized selection of question indices
+			}
+
+	  	// TODO: run template
+
 
 	  	// hide optionArea and show test area
-	  	$("#optionArea").addClass("d-none");
+	  	$("#optArea").addClass("d-none");
 	  	$("#testArea").removeClass("d-none");
 
-	  } // end generateTest()
+
+
+	  }
 
 
 
