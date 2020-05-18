@@ -44,6 +44,7 @@
 				dropzone.on("dragleave", handleDragLeave);
 				$("#formOptions").on("submit", handleOptionsSubmit);
 				$("#nextPage > a").on("click", paginateNext);
+				$("#prevPage > a").on("click", paginatePrev);
 
 		  	/*  Range Input Slider */
 				var slider = document.getElementById("inputPassingScore");
@@ -308,6 +309,29 @@
 	  	
 	  	$("#currPage > span").text(currentQ + 1);
 
+	  	// Disable/enable next button 
+	  	var np = $("#nextPage");
+	  	if (nextQ == -1){
+	  		np.addClass("disabled");
+	  		np.prop("selectedIndex", -1);
+	  	} else if (nextQ != -1 && np.prop("selectedIndex") == -1){
+	  		// next question shouldn't be disable but still is
+	  		np.prop("selectedIndex", 0);
+	  		np.removeClass("disabled");
+	  	}
+
+	  	// Disable/enable prev button
+
+	  	var pp = $("#prevPage");
+	  	if (prevQ == -1){
+	  		pp.addClass("disabled");
+	  		pp.prop("selectedIndex", -1);
+	  	} else if (prevQ != -1 && pp.prop("selectedIndex") == -1){
+	  		pp.prop("selectedIndex", 0);
+	  		pp.removeClass("disabled");
+	  	}
+
+
 
 	  }
 
@@ -337,7 +361,17 @@
 	  }
 
 	  function paginatePrev(){
+	  	if(currentQ > 0){
+	  		nextQ = currentQ;
+	  		prevQ = (currentQ > 1) ? currentQ - 2 : -1;
+	  		currentQ = currentQ - 1;
 
+	  		// update pagination
+	  		updatePaginate();
+
+	  		//render new question
+	  		displayQuestion(currentQ);
+	  	}
 
 	  }
 
