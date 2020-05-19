@@ -145,7 +145,7 @@
 
 	<body>
 					
-		<div id="uploadArea" class="container">
+		<section id="uploadArea" class="container">
 			<div class=col-lg-12>
 		    <div id="dz" onclick="dropzoneClick()" accept=".csv" class="card card-body bg-light">		    
 	    		<h1 class="text-center font-weight-bold">
@@ -155,9 +155,34 @@
 		    </div>
 		    <input type="file" name="file" id="file" class="d-none"/>
 			</div> <!-- end dzCol -->
-		</div> <!-- end uploadArea -->
 
-		<div id="optArea" class="container d-none">
+			<div class="row justify-content-center">
+				<header class="col-lg-12">
+					<h1>Instructions</h1>
+				</header>
+				<div class="col-lg-8">
+					<ul>
+						<li>Questions must be input into specially-formatted CSV file</li>
+						<li>The file name must end in ".csv"
+						<li>The file must be <em>tab-delimited</em> and use specific header names (without quotes):</li>
+						<ul>
+							<li>"question" - The actual question</li>
+							<li>"opt1" - multiple-choice option 1-6 (blank is okay)</li>
+							<li>"opt2"</li>
+							<li>"opt3"</li>
+							<li>"opt4"</li>
+							<li>"opt5"</li>
+							<li>"opt6"</li>
+							<li>"ans" - number of the correct answer</li>
+						</ul>
+						<li>Download the <a href="#">template</a></li>
+					</ul>
+				</div>
+			</div>
+
+		</section> <!-- end uploadArea -->
+
+		<section id="optArea" class="container d-none">
 			<div class="card">
 				<h1 class="card-header">Select Options</h1>
 				<form id="formOptions" class="card-body">
@@ -181,7 +206,7 @@
 					</div>
 				</form>
 			</div>
-		</div> <!--end optArea -->
+		</section> <!--end optArea -->
 
 		<div id="testArea" class="container d-none">
 			<div class="card">
