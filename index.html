@@ -13,16 +13,44 @@
 
 		<script id="test-template" type="text/x-handlebars-template">
 			{{!-- if-statement keeps empty options from rendering --}}
+
 			<div class="row">
 				<div class="col-lg-12">{{question}}</div>
-				{{#if opt1}}<div class="col-lg-12">{{opt1}}</div>{{/if}}
-				{{#if opt2}}<div class="col-lg-12">{{opt2}}</div>{{/if}}
-				{{#if opt3}}<div class="col-lg-12">{{opt3}}</div>{{/if}}
-				{{#if opt4}}<div class="col-lg-12">{{opt4}}</div>{{/if}}
-				{{#if opt5}}<div class="col-lg-12">{{opt5}}</div>{{/if}}
-				{{#if opt6}}<div class="col-lg-12">{{opt6}}</div>{{/if}}				
 			</div>
+			<div class="radioContainer">
+				<div class="button-wrap">
+					{{#if opt1}}
+						<input class="hidden radio-label" type="radio" name="radio-answer" id="opt1" value=1>
+						<label class="button-label" for="opt1"><h1>{{opt1}}</h1></label>
+					{{/if}}
+					{{#if opt2}}
+						<input class="hidden radio-label" type="radio" name="radio-answer" id="opt2" value=2>
+						<label class="button-label" for="opt2"><h1>{{opt2}}</h1></label>
+					{{/if}}
+					{{#if opt3}}
+						<input class="hidden radio-label" type="radio" name="radio-answer" id="opt3" value=3>
+						<label class="button-label" for="opt3"><h1>{{opt3}}</h1></label>
+					{{/if}}
+					{{#if opt4}}
+						<input class="hidden radio-label" type="radio" name="radio-answer" id="opt4" value=4>
+						<label class="button-label" for="opt4"><h1>{{opt4}}</h1></label>
+					{{/if}}
+					{{#if opt5}}
+						<input class="hidden radio-label" type="radio" name="radio-answer" id="opt5" value=5>
+						<label class="button-label" for="opt5"><h1>{{opt5}}</h1></label>
+					{{/if}}
+					{{#if opt1}}
+						<input class="hidden radio-label" type="radio" name="radio-answer" id="opt6" value=6>
+						<label class="button-label" for="opt6"><h1>{{opt6}}</h1></label>
+					{{/if}}					
+				</div>
+			</div>
+
+
 		</script>
+
+
+
 
 
 		<script>
@@ -45,6 +73,7 @@
 				$("#formOptions").on("submit", handleOptionsSubmit);
 				$("#nextPage > a").on("click", paginateNext);
 				$("#prevPage > a").on("click", paginatePrev);
+				
 
 		  	/*  Range Input Slider */
 				var slider = document.getElementById("inputPassingScore");
@@ -62,7 +91,51 @@
 		</script>
 
 		<style>
-			/* Styles here */
+			.radioContainer {
+				height: 100%;
+				min-height: 100%;
+				margin: 0 auto;
+			}
+
+			.radio-label:checked + .button-label {
+				background: #4183D7;
+				color: #efefef;
+			}
+
+			.radio-label:checked + .button-label:hover {
+				background: #2c75d2;
+				color: #e2e2e2;
+			}
+
+			.button-wrap {
+				position: relative;				
+			}
+
+			.button-label {
+				display: block;
+				cursor: pointer;
+				color: #292929;
+				border-radius: 0.25em;
+				background: #efefef;
+				box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.22);
+			}
+
+			.button-label:hover {
+				background: #d6d6d6;
+				color: #101010;
+				box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.32);
+			}
+
+			.button-label:active {
+			  -webkit-transform: translateY(2px);
+			          transform: translateY(2px);
+			  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0px -1px 0 rgba(0, 0, 0, 0.22);
+			}
+
+			.hidden {
+				display: none;
+			}
+
 
 		</style>
 
@@ -82,6 +155,10 @@
 			    </div>
 			    <input type="file" name="file" id="file" class="d-none"/>
 				</div> <!-- end dzCol -->
+
+				
+
+
 
 			</div> <!-- end uploadArea -->
 
@@ -120,13 +197,13 @@
 					<div id="testContent" class="card-body">
 
 						<div id="testContentQuestion">
-							<!-- Template fills here -->
+							<!-- Question Template fills here -->						
 						</div>
 
 						<nav>
 							<ul class="pagination">
 								<li id="prevPage" class="page-item disabled">
-									<a class="page-link" href="#" tabindex="-1">Previous</a>
+									<a class="page-link" href="#" tabindex="-1">Prev</a>
 								</li>
 								<li id="currPage" class="page-item"><span class="page-link">1</span></li>
 						    <li id="nextPage" class="page-item">
@@ -286,6 +363,8 @@
 	  	var html = template(context);
 	  	$("#testContentQuestion").html(html);
 
+	  	// wire up event handler(s) on each render
+	  	$("input[type=radio][name='radio-answer'").on("change", handleRadioChange);
 
 	  }
 
@@ -376,6 +455,21 @@
 	  }
 
 	  function paginateJumpto(){
+	  	/* Desc: Jumpt to a specific question */
+	  	// TODO: implement pagination 
+	  	x = 0;
+
+	  }
+
+	  /***** Test events *****/
+	  function handleRadioChange(evt){
+	  	/* Desc: Record user's selected answer whenever they click an option */
+
+	  	// Get the radio button's value
+			var selAnswer = this.value;
+
+			// Record into answer tracker
+			dataTracker[currentQ] = selAnswer;
 
 	  }
 
