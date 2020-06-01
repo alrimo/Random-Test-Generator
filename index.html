@@ -15,33 +15,33 @@
 			{{!-- if-statement keeps empty options from rendering --}}
 
 			<div class="row">
-				<div class="col-lg-12">{{question}}</div>
+				<div class="col-lg-12 question">{{question}}</div>
 			</div>
 			<div class="radioContainer">
 				<div class="button-wrap">
 					{{#if opt1}}
 						<input class="hidden radio-label" type="radio" name="radio-answer" id="opt1" value="1">
-						<label class="button-label" for="opt1"><h1>{{opt1}}</h1></label>
+						<label class="button-label" for="opt1">{{opt1}}</label>
 					{{/if}}
 					{{#if opt2}}
 						<input class="hidden radio-label" type="radio" name="radio-answer" id="opt2" value="2">
-						<label class="button-label" for="opt2"><h1>{{opt2}}</h1></label>
+						<label class="button-label" for="opt2">{{opt2}}</label>
 					{{/if}}
 					{{#if opt3}}
 						<input class="hidden radio-label" type="radio" name="radio-answer" id="opt3" value="3">
-						<label class="button-label" for="opt3"><h1>{{opt3}}</h1></label>
+						<label class="button-label" for="opt3">{{opt3}}</label>
 					{{/if}}
 					{{#if opt4}}
 						<input class="hidden radio-label" type="radio" name="radio-answer" id="opt4" value="4">
-						<label class="button-label" for="opt4"><h1>{{opt4}}</h1></label>
+						<label class="button-label" for="opt4">{{opt4}}</label>
 					{{/if}}
 					{{#if opt5}}
 						<input class="hidden radio-label" type="radio" name="radio-answer" id="opt5" value="5">
-						<label class="button-label" for="opt5"><h1>{{opt5}}</h1></label>
+						<label class="button-label" for="opt5">{{opt5}}</label>
 					{{/if}}
 					{{#if opt1}}
 						<input class="hidden radio-label" type="radio" name="radio-answer" id="opt6" value="6">
-						<label class="button-label" for="opt6"><h1>{{opt6}}</h1></label>
+						<label class="button-label" for="opt6">{{opt6}}</label>
 					{{/if}}					
 				</div>
 			</div>
@@ -93,6 +93,13 @@
 		</script>
 
 		<style>
+
+
+			.question {
+				padding-bottom: 1.5rem;
+				font-size: 1.3rem;
+			}
+
 			.radioContainer {
 				height: 100%;
 				min-height: 100%;
@@ -138,6 +145,10 @@
 				display: none;
 			}
 
+			#resultsArea button {
+				cursor: no-drop;
+			}
+
 
 		</style>
 
@@ -157,8 +168,8 @@
 			</div> <!-- end dzCol -->
 
 			<div class="row justify-content-center">
-				<header class="col-lg-12">
-					<h1>Instructions</h1>
+				<header class="col-lg-10">
+					<h2>Instructions</h2>
 				</header>
 				<div class="col-lg-8">
 					<ul>
@@ -175,14 +186,14 @@
 							<li>"opt6"</li>
 							<li>"ans" - number of the correct answer</li>
 						</ul>
-						<li>Download the <a href="#">template</a></li>
+						<li>Download the <a href="template/template.csv">template</a></li>
 					</ul>
 				</div>
 			</div>
 
 		</section> <!-- end uploadArea -->
 
-		<section id="optArea" class="container d-none">
+		<section id="optArea" class="container d-none mt-5">
 			<div class="card">
 				<h1 class="card-header">Select Options</h1>
 				<form id="formOptions" class="card-body">
@@ -208,8 +219,8 @@
 			</div>
 		</section> <!--end optArea -->
 
-		<div id="testArea" class="container d-none">
-			<div class="card">
+		<div id="testArea" class="row justify-content-center d-none">
+			<div class="card col-lg-6 p-0 mt-5">
 				<h1 class="card-header text-center">						
 					Please answer the following questions
 				</h1>					
@@ -239,11 +250,18 @@
 		</div> <!-- end testArea -->
 
 
-		<div id="resultsArea" class="d-none">
-			<!-- Placeholder text -->
-			<h2 id="resultBanner">Congratuations!  You Passed!</h1>
-			<h3>Your score:</h3>
-			<h4 id="resultScore">85%</h4>
+		<div id="resultsArea" class="d-none row justify-content-center">			
+			<section class="col-lg-6">
+				<h3 id="resultBanner" class="card-header">--Result Placeholder--</h3>
+				<div class="card-body">
+					<h3>Your score:</h3>
+					<h4 id="resultScore">--score placeholder--</h4>
+				</div>
+				<button id="btnRetake" type="button" class="btn btn-secondary" disabled>Re-Take</button>
+				<button id="btnGenNew" type="button" class="btn btn-primary" disabled>Generate New</button>
+			</section>
+
+			
 		</div> <!-- END resultsArea -->
 
 		<!-- Confirmation Modal -->
@@ -567,7 +585,7 @@
 	  										? "Congratuations, you passed!" 
 	  										: "Sorry, you did not pass!";
 	  	$("#resultBanner").text(bannerText);
-	  	$("#resultScore").text(String(percentage));
+	  	$("#resultScore").text(String(percentage) + "%");
 	  	
 	  	// Display results
 	  	$("#resultsArea").removeClass("d-none")
