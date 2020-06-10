@@ -56,7 +56,7 @@ function handleStdMqf(e) {
   //      then passes to doUpload()... "true" is needed
   //      since the file is local to the server
   const val = $(this).attr("value");
-  const fullPath = `/mqf/${val}.txt`;
+  const fullPath = `./mqf/${val}.txt`;
   doUpload(fullPath, true);
 }
 
