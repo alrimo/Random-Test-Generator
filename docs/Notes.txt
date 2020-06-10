@@ -1,0 +1,15 @@
+To run locally:
+
+Install Node.js
+
+install http-server for node:
+npm install http-server -g
+
+serve up your files.  Navigate to the top-level directory of your site and type:
+http-server
+
+or
+
+http-server <path-to-folder>
+
+The console will show you the URL
