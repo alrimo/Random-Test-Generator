@@ -137,28 +137,33 @@
 
 
 
-			<div class="justify-content-center row justify-content-center mt-5">
+			<div class="justify-content-center row justify-content-center mt-5 pb-5">
 				<div class="bg-light col-lg-10 row justify-content-center">	
 					<div>
-						<header class="py-3">
+						<div class="py-3 text-center">
 							<h2 class="display-5">Custom Upload Instructions</h2>
-						</header>
-						<ul>
-							<li>Questions must be input into specially-formatted CSV file</li>
-							<li>The file name must end in ".csv"
-							<li>The file must be <em>tab-delimited</em> and use specific header names (without quotes):</li>
+							<div id="instrToggle" data-toggle="collapse" data-target="#instrCollapse" class="row justify-content-center text-center">									
+									<i class="fa fa-arrow-down fa-2x col-12"></i>
+							</div>
+						</div>
+						<div id="instrCollapse" class="collapse">
 							<ul>
-								<li>"question" - The actual question</li>
-								<li>"opt1" - multiple-choice option 1-6 (blank is okay)</li>
-								<li>"opt2"</li>
-								<li>"opt3"</li>
-								<li>"opt4"</li>
-								<li>"opt5"</li>
-								<li>"opt6"</li>
-								<li>"ans" - number of the correct answer</li>
+								<li>Questions must be input into specially-formatted file</li>
+								<li>The file name must end in ".csv" or ".txt" hint: (use Excel's 'tab delimited' option)
+								<li>The file must be <em>tab-delimited</em> and use specific header names (without quotes):</li>
+								<ul>
+									<li>"question" - The actual question</li>
+									<li>"opt1" - multiple-choice option 1-6 (blank is okay)</li>
+									<li>"opt2"</li>
+									<li>"opt3"</li>
+									<li>"opt4"</li>
+									<li>"opt5"</li>
+									<li>"opt6"</li>
+									<li>"ans" - number of the correct answer</li>
+								</ul>
+								<li>Download the <a href="template/template.csv">template</a></li>
 							</ul>
-							<li>Download the <a href="template/template.csv">template</a></li>
-						</ul>
+						</div>
 					</div>
 				</div>
 			</div>
