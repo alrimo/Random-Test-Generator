@@ -1,0 +1,31 @@
+question	opt1	opt2	opt3	opt4	opt5	opt6	ans
+C-130 Question 1	opt1	opt2	opt3	opt4		opt6	1
+C-130 Question 2	opt1	opt2	opt3	opt4			1
+C-130 Question 3	opt1	opt2	opt3	opt4		opt6	1
+C-130 Question 4	opt1	opt2	op3	opt4		opt6	1
+C-130 Question 5	opt1	opt2	opt3	opt4		opt6	1
+C-130 Question 6		opt2	op4	opt4		opt6	1
+C-130 Question 7	TRUE	FALSE					
+C-130 Question 8	opt1	opt2	op5	opt4		opt6	1
+C-130 Question 9	opt1	opt2	opt3	opt4		opt6	1
+C-130 Question 10	opt1	opt2	op6	opt4		opt6	1
+C-130 Question 11	opt1	opt2		opt4		opt6	1
+C-130 Question 12	opt1	opt2	op7	opt4		opt6	1
+C-130 Question 13	opt1	opt2	opt3	opt4		opt6	1
+C-130 Question 14	opt1	opt2	op8	opt4		opt6	1
+C-130 Question 15	opt1	opt2	opt3	opt4		opt6	1
+C-130 Question 16	opt1	opt2	op9	opt4		opt6	1
+C-130 Question 17	opt1	opt2	opt3	opt4		opt6	1
+C-130 Question 18	opt1	opt2	op10	opt4		opt6	1
+C-130 Question 19	opt1	opt2	opt3	opt4		opt6	1
+C-130 Question 20	opt1	opt2	op11	opt4		opt6	1
+C-130 Question 21	opt1	opt2	opt3	opt4		opt6	1
+C-130 Question 22	opt1	opt2	op12	opt4		opt6	1
+C-130 Question 23	opt1	opt2	opt3	opt4		opt6	1
+C-130 Question 24	opt1	opt2	op13	opt4		opt6	1
+C-130 Question 25	opt1	opt2	opt3	opt4		opt6	1
+C-130 Question 26	opt1	opt2	op14	opt4		opt6	1
+C-130 Question 27	opt1	opt2	opt3	opt4		opt6	1
+C-130 Question 28	opt1	opt2	op15	opt4		opt6	1
+C-130 Question 29	opt1	opt2	opt3	opt4		opt6	1
+C-130 Question 30	opt1	opt2	op16	opt4		opt6	1
