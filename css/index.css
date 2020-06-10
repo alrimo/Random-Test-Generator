@@ -1,0 +1,52 @@
+.question {
+	padding-bottom: 1.5rem;
+	font-size: 1.3rem;
+}
+
+.radioContainer {
+	height: 100%;
+	min-height: 100%;
+	margin: 0 auto;
+}
+
+.radio-label:checked + .button-label {
+	background: #4183D7;
+	color: #efefef;
+}
+
+.radio-label:checked + .button-label:hover {
+	background: #2c75d2;
+	color: #e2e2e2;
+}
+
+.button-wrap {
+	position: relative;				
+}
+
+.button-label {display: block;
+	cursor: pointer;
+	color: #292929;
+	border-radius: 0.25em;
+	background: #efefef;
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.22);
+}
+
+.button-label:hover {
+	background: #d6d6d6;
+	color: #101010;
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.32);
+}
+
+.button-label:active {
+  -webkit-transform: translateY(2px);
+          transform: translateY(2px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0px -1px 0 rgba(0, 0, 0, 0.22);
+}
+
+.hidden {
+	display: none;
+}
+
+#resultsArea button {
+	cursor: no-drop;
+}

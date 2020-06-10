@@ -5,10 +5,12 @@
 		<meta charset="utf-8" /> 
 		<link rel="stylesheet" href="css/bootstrap.min.css"/>
 		<link rel="stylesheet" href="css/fontawesome-all.css">
+		<link rel="stylesheet" href="css/index.css">
 		<script src="js/jquery-3.5.1.min.js"></script>
 		<script src="js/bootstrap.js"></script>
 		<script src="js/papaparse.min.js"></script>
 		<script src="js/handlebars.js"></script>
+		<script src="js/index.js"></script>
 
 
 		<script id="test-template" type="text/x-handlebars-template">
@@ -45,111 +47,14 @@
 					{{/if}}					
 				</div>
 			</div>
-
-
 		</script>
 
-
-
-
-
 		<script>
-			$.PAYLOAD = new Object();
-			var dataTracker = new Object();
-			var questionList = [];
-			var currentQ = -1;	// idx of current, prev, next, last questions
-			var nextQ = -1;
-			var prevQ = -1;
-			var lastQ = -1;
-			var minPassing = -1;
-
-
-			$(document).ready(function(){
-		    $("#file").change(handleFileSelect);	
-
-		    // event handlers
-				var dropzone = $("#dz");
-				dropzone.on("dragover", handleDragOver);
-				dropzone.on("drop", handleFileDrop);
-				dropzone.on("dragleave", handleDragLeave);
-				$("#formOptions").on("submit", handleOptionsSubmit);
-				$("#nextPage > a").on("click", paginateNext);
-				$("#prevPage > a").on("click", paginatePrev);
-				$("#btnFinish").on("click", handleFinishTest);
-
-		  	/*  Range Input Slider */
-				var slider = document.getElementById("inputPassingScore");
-				var output = document.getElementById("rangeVal");
-				output.innerHTML = slider.value;
-
-				slider.oninput = function() {
-				  output.innerHTML = this.value;
-				}
-
-
-
-			 });
-
+			// Script
 		</script>
 
 		<style>
-
-
-			.question {
-				padding-bottom: 1.5rem;
-				font-size: 1.3rem;
-			}
-
-			.radioContainer {
-				height: 100%;
-				min-height: 100%;
-				margin: 0 auto;
-			}
-
-			.radio-label:checked + .button-label {
-				background: #4183D7;
-				color: #efefef;
-			}
-
-			.radio-label:checked + .button-label:hover {
-				background: #2c75d2;
-				color: #e2e2e2;
-			}
-
-			.button-wrap {
-				position: relative;				
-			}
-
-			.button-label {
-				display: block;
-				cursor: pointer;
-				color: #292929;
-				border-radius: 0.25em;
-				background: #efefef;
-				box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.22);
-			}
-
-			.button-label:hover {
-				background: #d6d6d6;
-				color: #101010;
-				box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.32);
-			}
-
-			.button-label:active {
-			  -webkit-transform: translateY(2px);
-			          transform: translateY(2px);
-			  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0px -1px 0 rgba(0, 0, 0, 0.22);
-			}
-
-			.hidden {
-				display: none;
-			}
-
-			#resultsArea button {
-				cursor: no-drop;
-			}
-
-
+			// Styles
 		</style>
 
 	</head>
@@ -158,7 +63,7 @@
 					
 		<section id="uploadArea" class="container">
 			<div class=col-lg-12>
-		    <div id="dz" onclick="dropzoneClick()" accept=".csv" class="card card-body bg-light">		    
+		    <div id="dz" onclick="dropzoneClick()" accept=".csv,.txt" class="card card-body bg-light">		    
 	    		<h1 class="text-center font-weight-bold">
 	    			<i class="fas fa-cloud-upload-alt"></i>
 	    			<span id="dzText">Drop your file here (or click)</span>
@@ -166,6 +71,11 @@
 		    </div>
 		    <input type="file" name="file" id="file" class="d-none"/>
 			</div> <!-- end dzCol -->
+
+			<div id="test">
+				<h3>Pre-built MQFs</h3>
+				<button class="btn btn-primary" onClick="doUpload('tests/test-data.csv', true)">C-130</button>
+			</div>
 
 			<div class="row justify-content-center">
 				<header class="col-lg-10">
@@ -219,6 +129,7 @@
 			</div>
 		</section> <!--end optArea -->
 
+		<!-- Test Display Area -->
 		<div id="testArea" class="row justify-content-center d-none">
 			<div class="card col-lg-6 p-0 mt-5">
 				<h1 class="card-header text-center">						
@@ -249,7 +160,7 @@
 			</div> <!-- end card -->
 		</div> <!-- end testArea -->
 
-
+		<!-- Results -->
 		<div id="resultsArea" class="d-none row justify-content-center">			
 			<section class="col-lg-6">
 				<h3 id="resultBanner" class="card-header">--Result Placeholder--</h3>
@@ -322,10 +233,12 @@
 
 		}
 
-		function doUpload(e) { 
+		function doUpload(e, download = false) { 
 		  console.log('attempt');
 		  Papa.parse(e, {
 		    header: true,
+		    download: download,
+		    delimiter: "\t",
 		    skipEmptyLines: 'greedy',
 		    before: function(file, inputElem){ console.log('Attempting to Parse...')},
 		    error: function(err, file, inputElem, reason){ console.log(err); },
@@ -563,7 +476,7 @@
 	  	$("#testArea").addClass("d-none");
 
 
-	  	// TODO: Grade test and plug into results page
+	  	// Grade test and plug into results page
 	  	var totQuestions = questionList.length;
 	  	var numCorrect = 0;	// counter of correct questions
 	  	
