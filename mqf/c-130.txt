@@ -1,11 +1,11 @@
 question	opt1	opt2	opt3	opt4	opt5	opt6	ans
-C-130 Question 1	opt1	opt2	opt3	opt4		opt6	1
-C-130 Question 2	opt1	opt2	opt3	opt4			1
-C-130 Question 3	opt1	opt2	opt3	opt4		opt6	1
-C-130 Question 4	opt1	opt2	op3	opt4		opt6	1
-C-130 Question 5	opt1	opt2	opt3	opt4		opt6	1
-C-130 Question 6		opt2	op4	opt4		opt6	1
-C-130 Question 7	TRUE	FALSE					
+C-130 Question 1	TRUE	FALSE					1
+C-130 Question 2	TRUE	FALSE					1
+C-130 Question 3	TRUE	FALSE					1
+C-130 Question 4	TRUE	FALSE					1
+C-130 Question 5	TRUE	FALSE					1
+C-130 Question 6	TRUE	FALSE					1
+C-130 Question 7	TRUE	FALSE					1
 C-130 Question 8	opt1	opt2	op5	opt4		opt6	1
 C-130 Question 9	opt1	opt2	opt3	opt4		opt6	1
 C-130 Question 10	opt1	opt2	op6	opt4		opt6	1

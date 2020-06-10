@@ -114,18 +114,37 @@ function handleOptionsSubmit(evt){
   evt.originalEvent.preventDefault();
 
   // Randomize test
-  var randQuestions = $("#inputQuestions option:selected").val();
-  minPassing = $("#inputPassingScore").val();
-  var numQuestions = $.PAYLOAD.data.length;
 
+  //minPassing = $("#inputPassingScore").val();
+
+  // Randomize the questions
+  randomizeQuestions();
+
+
+  // init pagination
+  paginateInit();
+
+  // render first question
+  displayQuestion(0);
+
+  // hide optionArea and show test area
+  $("#optArea").addClass("d-none");
+  $("#testArea").removeClass("d-none");
+
+}
+
+function randomizeQuestions() {
   /* Generate randomized test number array
-    Approach: (1) Create a simple array numbered 1 to total # of questions in CSV
-              (2) Shuffle that array
-              (3) Truncate array to # of question user selected
-    End State:  randomized indices of user-specified length.  
-                In other words: x random questions selected from y total questions  
+      Approach: (1) Create a simple array numbered 1 to total # of questions in CSV
+                (2) Shuffle that array
+                (3) Truncate array to # of question user selected
+      End State:  randomized indices of user-specified length.  
+                  In other words: x random questions selected from y total questions  
   */
   
+  var randQuestions = $("#inputQuestions option:selected").val();
+  var numQuestions = $.PAYLOAD.data.length;
+
   for(let i = 0; i < numQuestions; i++){        
     questionList.push(i);
   }
@@ -136,19 +155,6 @@ function handleOptionsSubmit(evt){
   for (let i=0; i < questionList.length; i++){
     dataTracker[i] = -1;
   }
-
-  // init pagination
-  paginateInit();
-
-  // render first question
-  displayQuestion(0);
-
-  // calculate minimum passing score
-
-
-  // hide optionArea and show test area
-  $("#optArea").addClass("d-none");
-  $("#testArea").removeClass("d-none");
 
 }
 
@@ -313,5 +319,28 @@ function handleFinishTest(){
   
   // Display results
   $("#resultsArea").removeClass("d-none")
+
+}
+
+function handleRetake(randQ = false) {
+  // User wishes to re-take the same test
+  // Reset the variables and start from question 1
+
+  if (randQ.data === true) { randomizeQuestions(); }
+
+  // re-init dataTracker obj
+  for (let i=0; i < questionList.length; i++){
+    dataTracker[i] = -1;
+  }
+
+  // reset pagination
+  paginateInit();
+
+  // render first question
+  displayQuestion(0);
+
+  // hide 
+  $("#resultsArea").addClass("d-none");
+  $("#testArea").removeClass("d-none");
 
 }

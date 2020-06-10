@@ -73,6 +73,9 @@
 				$("#prevPage > a").on("click", paginatePrev);		// prev page btn
 				$("#btnFinish").on("click", handleFinishTest);	// finish test
 				$(".btn-mqf").on("click", handleStdMqf);	// pre-built MQF buttons
+				$("#btnRetake").on("click", handleRetake);	// re-take same test
+				$("#btnGenNew").on("click", true, handleRetake);
+
 
 				/*  Range Input Slider */
 				var slider = document.getElementById("inputPassingScore");
@@ -227,8 +230,8 @@
 					<h3>Your score:</h3>
 					<h4 id="resultScore">--score placeholder--</h4>
 				</div>
-				<button id="btnRetake" type="button" class="btn btn-secondary" disabled>Re-Take</button>
-				<button id="btnGenNew" type="button" class="btn btn-primary" disabled>Generate New</button>
+				<button id="btnRetake" type="button" class="btn btn-secondary">Retake</button>
+				<button id="btnGenNew" type="button" class="btn btn-primary">Retake & Randomize</button>
 			</section>
 
 			
