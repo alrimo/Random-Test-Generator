@@ -194,11 +194,28 @@
 			<div class="card">
 				<h1 class="card-header">Select Options</h1>
 				<form id="formOptions" class="card-body">
+					
 					<div class="form-group row justify-content-center">
+						<div class="custom-control custom-switch">
+							<input type="checkbox" class="custom-control-input" id="switchTestVers">
+							<label for="switchTestVers" class="custom-control-label">Use Test Versions</label>
+						</div>
+					</div>
+
+					<div class="form-group row justify-content-center">
+						<label for="selVers" class="col-sm-4 col-form-label">Select Version</label>
+						<div class="col-sm-2">
+							<select id="selVers" class="form-control">
+								<option disabled>Choose...</option>
+							</select>
+						</div>
+					</div>
+
+					<div id="ddNumQuestions" class="form-group row justify-content-center">
 						<label for="inputQuestions" class="col-sm-4 col-form-label"># of Questions</label>
 						<div class="col-sm-2">
 							<select id="inputQuestions" class="form-control">
-								<option selected>Choose...</option>
+								<option disabled>Choose...</option>
 							</select>
 						</div>
 					</div>
