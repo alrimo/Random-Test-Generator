@@ -9,6 +9,14 @@
 	margin: 0 auto;
 }
 
+.radio-label {
+	margin-top: 0.9rem;
+}
+
+.button-label {
+	margin-bottom: 0.9rem;
+}
+
 .radio-label:checked + .button-label {
 	background: #4183D7;
 	color: #efefef;
@@ -29,6 +37,7 @@
 	border-radius: 0.25em;
 	background: #efefef;
 	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.22);
+	padding: 8px;
 }
 
 .button-label:hover {

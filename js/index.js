@@ -169,6 +169,9 @@ function handleOptionsSubmit(e){
     randomizeQuestions();
   }
 
+  // set minPassing score
+  minPassing = parseInt($("#rangeVal").text());
+
   // init pagination
   paginateInit();
 
