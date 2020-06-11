@@ -87,6 +87,11 @@ function dispTestOpts(){
   $("#uploadArea, #preBuiltMqf, #jumbotron").addClass("d-none");
   $("#optArea").removeClass("d-none");
 
+  if (! $.PAYLOAD.data) {
+    console.log("Error, no test data");
+    return;
+  }
+
   //TODO: Populate "Select Version" drop-down
 
 
@@ -95,7 +100,7 @@ function dispTestOpts(){
   // Additionally: track unique test versions
   // AND sort test 
   */
-  let versionDict = {};
+
   const numQuestions = $.PAYLOAD.data.length;
   let optsToAppend = "";
   let currItem = null;
@@ -121,12 +126,18 @@ function dispTestOpts(){
     } // end if(hasVersProp)
   } // end for
 
-  // TODO: if we have version questions, add to drop-down
+  // if we have version questions, add to "Test Version" drop-down
   if(!jQuery.isEmptyObject(versionDict)) {
-    let x = 0;
+    let tests = Object.keys(versionDict);
+    tests.forEach( (value, index) => {
+      $("#selVers").append(`<option value="${index + 1}">${value}</option>`);
+    });
+
+    // Show the test version options in the "Select Options screen"
+    $(".test-version").removeClass("d-none");
   }
 
-  console.log(versionDict);
+  // Populate "# of Questions" drop down
   $("#inputQuestions").append(optsToAppend);
 }
 
@@ -141,14 +152,22 @@ function shuffleArray(array) {
   }
 }
 
-function handleOptionsSubmit(evt){
+function handleOptionsSubmit(e){
   /* Desc: User has selected options, now generate test */
   
-  //evt.originalEvent.stopPropagation();
-  evt.originalEvent.preventDefault();
+  //e.originalEvent.stopPropagation();
+  e.originalEvent.preventDefault();
 
-  // Randomize the questions
-  randomizeQuestions();
+  // Split out test setup based on user selecting test versions or not
+  if ( $("#switchTestVers").is(":checked") ) {
+    let ver = $("#selVers option:selected").text();
+    questionList = [...versionDict[ver]];
+    $("#btnGenNew").prop("disabled", true).hide();
+  } else {
+    // Randomize the questions
+    $("#btnGenNew").prop("disabled", false).show();
+    randomizeQuestions();
+  }
 
   // init pagination
   paginateInit();
@@ -161,6 +180,7 @@ function handleOptionsSubmit(evt){
   $("#testArea").removeClass("d-none");
 
 }
+
 
 function randomizeQuestions() {
   /* Generate randomized test number array
@@ -186,6 +206,24 @@ function randomizeQuestions() {
   }
 
 }
+
+function toggleVersionSwitch() {
+  
+  if ( $(this).is(':checked') ) {
+    // Hide the # of questions drop-down & disable it
+    // Also show the version drop-down and enable it
+    $("#ddNumQuestions").addClass("d-none");
+    $("#inputQuestions").prop("disabled", true);
+    $("#ddSelVersion").removeClass("d-none");
+    $("#selVers").prop("disabled", false);
+  } else {
+    // it's unchecked, re-enable # of Questions
+    $("#ddNumQuestions").removeClass("d-none");
+    $("#inputQuestions").prop("disabled", false);
+    $("#ddSelVersion").addClass("d-none");
+    $("#selVers").prop("disabled", true);
+  }
+} 
 
 function displayQuestion(questionIdx){
   /* Desc: Use handlebars.js to render specified question into template area */
@@ -213,8 +251,9 @@ function displayQuestion(questionIdx){
 }
 
 
-
-/****** Pagination *******/
+/**************************
+/****** Pagination ********
+/**************************/
 
 function paginateInit(){
   currentQ = 0;

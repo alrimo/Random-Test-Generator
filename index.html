@@ -59,6 +59,7 @@
 			var prevQ = -1;
 			var lastQ = -1;
 			var minPassing = -1;
+			var versionDict = {};
 
 			$(document).ready(function(){
 			  $("#file").change(handleFileSelect);	
@@ -75,6 +76,7 @@
 				$(".btn-mqf").on("click", handleStdMqf);	// pre-built MQF buttons
 				$("#btnRetake").on("click", handleRetake);	// re-take same test
 				$("#btnGenNew").on("click", true, handleRetake);
+				$("#switchTestVers").on("change", toggleVersionSwitch);
 
 
 				/*  Range Input Slider */
@@ -195,14 +197,14 @@
 				<h1 class="card-header">Select Options</h1>
 				<form id="formOptions" class="card-body">
 					
-					<div class="form-group row justify-content-center">
+					<div class="form-group row justify-content-center test-version d-none">
 						<div class="custom-control custom-switch">
 							<input type="checkbox" class="custom-control-input" id="switchTestVers">
 							<label for="switchTestVers" class="custom-control-label">Use Test Versions</label>
 						</div>
 					</div>
 
-					<div class="form-group row justify-content-center">
+					<div id="ddSelVersion" class="form-group row justify-content-center d-none">
 						<label for="selVers" class="col-sm-4 col-form-label">Select Version</label>
 						<div class="col-sm-2">
 							<select id="selVers" class="form-control">
