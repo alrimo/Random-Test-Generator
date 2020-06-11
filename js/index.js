@@ -89,34 +89,42 @@ function dispTestOpts(){
 
   //TODO: Populate "Select Version" drop-down
 
-  let versionDict = {};
+
 
   /* Populate "# of questions" drop-down
   // Additionally: track unique test versions
   // AND sort test 
   */
-  var numQuestions = $.PAYLOAD.data.length;
-  var optsToAppend = "";
+  let versionDict = {};
+  const numQuestions = $.PAYLOAD.data.length;
+  let optsToAppend = "";
   let currItem = null;
-  for (i=1; i < numQuestions + 1; i++){
+  const hasVersProp = $.PAYLOAD.data[0].hasOwnProperty("vers");
+
+  //TODO: change loop to zero-based iteration
+  for (let i=1; i < numQuestions + 1; i++){
     optsToAppend += '<option value="' + i + '">' + String(i) + '</option>';
     
     /*  Check to see if "vers" column exists in data, if it does
         sort test question #s by version number into dictionary
         ex: {a: [1,3,6], b: [2,5,9]}
     */
-    //TODO: Refactor: (1) only need to check if "vers" exists once
-    //                (2) assign value to currItem AFTER checking if vers exists (nest the null check inside this)
-    currItem = $.PAYLOAD.data[i-1];
-    if (currItem.hasOwnProperty("vers") && currItem.vers !== null && currItem.vers !== undefined && currItem.vers !== "") {
-      if (versionDict.hasOwnProperty(currItem.vers)) {
-        versionDict[currItem.vers].push(i-1);
-      } else {
-        versionDict[currItem.vers] = [i-1];
+    if (hasVersProp) {
+      currItem = $.PAYLOAD.data[i-1];
+      if (currItem.vers !== null && currItem.vers !== undefined && currItem.vers !== "") {
+        if (versionDict.hasOwnProperty(currItem.vers)) {
+          versionDict[currItem.vers].push(i-1);
+        } else {
+          versionDict[currItem.vers] = [i-1];
+        }
       }
-    }
-
+    } // end if(hasVersProp)
   } // end for
+
+  // TODO: if we have version questions, add to drop-down
+  if(!jQuery.isEmptyObject(versionDict)) {
+    let x = 0;
+  }
 
   console.log(versionDict);
   $("#inputQuestions").append(optsToAppend);
@@ -139,13 +147,8 @@ function handleOptionsSubmit(evt){
   //evt.originalEvent.stopPropagation();
   evt.originalEvent.preventDefault();
 
-  // Randomize test
-
-  //minPassing = $("#inputPassingScore").val();
-
   // Randomize the questions
   randomizeQuestions();
-
 
   // init pagination
   paginateInit();
