@@ -97,6 +97,10 @@
 			.btn-mqf {
 				font-weight: bold;
 			}
+
+			#instrCollapse .card {
+				margin-bottom: 1.75rem;
+			}
 		</style>
 
 
@@ -149,42 +153,42 @@
 							</div>
 						</div>
 						<div id="instrCollapse" class="collapse">
-							<ul>
-								<li>Questions must be input into specially-formatted file</li>
-								<li>The file name must end in ".csv" or ".txt" hint: (use Excel's 'tab delimited' option)
-								<li>The file must be <em>tab-delimited</em> and use specific header names (without quotes):</li>
-								<ul>
-									<li>"question" - The actual question</li>
-									<li>"opt1" - multiple-choice option 1-6 (blank is okay)</li>
-									<li>"opt2"</li>
-									<li>"opt3"</li>
-									<li>"opt4"</li>
-									<li>"opt5"</li>
-									<li>"opt6"</li>
-									<li>"ans" - number of the correct answer</li>
-								</ul>
-								<li>Download the <a href="template/template.csv">template</a></li>
-								<ul>
-									<li><b>To Edit:</b> You must import this file into Excel</li>
-									<ol>
-										<li>Open Blank workbook</li>
-										<li>Select cell A1</li>
-										<li>Select "Data" Tab</li>
-										<li>In "Get External Data" section, select "from text"</li>
-										<li>Locate & Open template file</li>
-										<li>Excel will auto-detect settings so just hit "Finish" & then "OK"</li>
-									</ol>
-									<li><b>To Save:</b></li>
-									<ol>
-										<li>From Excel: File --> Save As</li>
-										<li>Select Desktop or wherever you'd like to save</li>
-										<li>Name the file</li>
-										<li>From Drop-down, select: "Text (Tab delimited) (*.txt)</li>
-										<li>Save</li>
-										<li>Drag file into Drop-zone (on this page, above)</li>
-									</ol>
-								</ul>
-							</ul>
+							<div class="card">
+								<h3 class="card-header bg-info text-white">Step One</h3>
+								<div class="card-body">
+									<h5>Create question file in Excel</h5>
+									<span class="d-block"><b>Note:</b> The "vers" column is only required if using test versions (see below)</span>
+									<span class="d-block"><b>Note 2:</b> Blank answers are OK ("opt")</span>
+									<span class="d-block mb-2"><b>Note 3:</b> The "ans" column is the number of the correct "opt"</span>
+									<img src="img/template-example.jpg" class="img-fluid">
+								</div>
+							</div>
+							<div class="card">
+								<h3 class="card-header bg-info text-white">Step Two</h3>
+								<div class="card-body">
+									<h5>"Save as" tab-delmited text file </h5>
+									<img src="img/template-example-save.jpg" class="img-fluid">
+								</div>
+							</div>							
+							<div class="card">
+								<h3 class="card-header bg-info text-white">Step Three</h3>
+								<div class="card-body">
+									<h5>Drag onto drop-zone (above)</h5>
+								</div>
+							</div>
+							<div class="card">
+								<h3 class="card-header bg-warning text-white">Feature: Using Test Versions</h3>
+								<div class="card-body">
+									<h6>Test versions allow you to have different versions of your test ("a", "b", "c"...)</h6>
+									<h6>Usage Notes</h6>
+									<ul>
+										<li>Versions are optional (remove "vers" column if not needed)</li>
+										<li>Not every question needs a version (blank is OK)</li>										
+										<li>ALL versioned questions will be tested (within the selected version)</li>
+										<li>No randomization available</li>
+									</ul>
+								</div>
+							</div>							
 						</div>
 					</div>
 				</div>
